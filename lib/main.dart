@@ -5,7 +5,7 @@ import 'package:flute_music_player/flute_music_player.dart';
 void main() {
   // runApp(myMuZik());
   runApp(MaterialApp(
-      title: 'MuZiK',
+      title: 'MuZiKKK',
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
