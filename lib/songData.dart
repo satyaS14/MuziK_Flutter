@@ -24,21 +24,16 @@ List buildAlbumData(data) {
     }
   }
 
-  if (albums != null) {
-    albums.forEach((key, value) {
-      var albumArt;
-      var songsInAlbum;
-
-      value.forEach((key2, value2) {
-        if (key2 == "thumbnail") {
-          albumArt = value2;
-        } else if (key2 == "songs") {
-          songsInAlbum = value2;
-        }
+  var sortedAlbums = albums.keys.toList()..sort();
+  if (sortedAlbums != null) {
+    for (var album in sortedAlbums) {
+      albumList.add({
+        "albumName": album,
+        "thumbnail": albums[album]["thumbnail"],
+        "songs": albums[album]["songs"]
       });
-      albumList.add(
-          {"albumName": key, "thumbnail": albumArt, "songs": songsInAlbum});
-    });
+    }
+    ;
   }
 
   return albumList;
