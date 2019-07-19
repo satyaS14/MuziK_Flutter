@@ -6,6 +6,7 @@ import './songData.dart';
 import 'dart:ui';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'dart:math';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 /* Global vars used by both screens */
 MusicFinder audioPlayer;
@@ -22,9 +23,12 @@ Song playingSong;
 enum PlayerState { stopped, playing, paused }
 PlayerState playerState;
 
-/* Stream for position - to be shared by both screens */
-// final StreamController<Duration> _streamController =
-//     new StreamController<Duration>();
+var initializationSettingsAndroid = new AndroidInitializationSettings('');
+var initializationSettingsIOS = new IOSInitializationSettings();
+var initializationSettings = new InitializationSettings(
+    initializationSettingsAndroid, initializationSettingsIOS);
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    new FlutterLocalNotificationsPlugin();
 
 void main() {
   audioPlayer = new MusicFinder();
@@ -43,6 +47,19 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Future onSelectNotification(String payload) async {
+      if (payload != null) {
+        debugPrint('notification payload: ' + payload);
+      }
+      await Navigator.push(
+        context,
+        new MaterialPageRoute(builder: (context) => MyMuzik()),
+      );
+    }
+
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
+
     return MaterialApp(
         title: 'MuZiKKK',
         theme: ThemeData(fontFamily: "JosefinSans-SemiBold"),
